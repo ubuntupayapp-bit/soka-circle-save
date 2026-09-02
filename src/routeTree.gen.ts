@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as CircleGoalIdRouteImport } from './routes/circle.$goalId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const DiscoverRoute = DiscoverRouteImport.update({
   path: '/discover',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CircleGoalIdRoute = CircleGoalIdRouteImport.update({
+  id: '/circle/$goalId',
+  path: '/circle/$goalId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
+  '/circle/$goalId': typeof CircleGoalIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
+  '/circle/$goalId': typeof CircleGoalIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
+  '/circle/$goalId': typeof CircleGoalIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/discover'
+  fullPaths: '/' | '/create' | '/discover' | '/circle/$goalId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/discover'
-  id: '__root__' | '/' | '/create' | '/discover'
+  to: '/' | '/create' | '/discover' | '/circle/$goalId'
+  id: '__root__' | '/' | '/create' | '/discover' | '/circle/$goalId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreateRoute: typeof CreateRoute
   DiscoverRoute: typeof DiscoverRoute
+  CircleGoalIdRoute: typeof CircleGoalIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiscoverRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/circle/$goalId': {
+      id: '/circle/$goalId'
+      path: '/circle/$goalId'
+      fullPath: '/circle/$goalId'
+      preLoaderRoute: typeof CircleGoalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateRoute: CreateRoute,
   DiscoverRoute: DiscoverRoute,
+  CircleGoalIdRoute: CircleGoalIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
