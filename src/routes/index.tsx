@@ -61,9 +61,9 @@ function Dashboard() {
         <img
           src={sokaLogo.url}
           alt="SOKA — Save, Own, Keep, Accumulate"
-          className="mt-3 h-24 w-auto rounded-2xl bg-card p-2"
-          width={220}
-          height={96}
+          className="mt-3 w-full max-w-[19rem] rounded-2xl bg-card px-4 py-3"
+          width={900}
+          height={383}
           loading="eager"
         />
         <p className="mt-3 text-sm opacity-90">
