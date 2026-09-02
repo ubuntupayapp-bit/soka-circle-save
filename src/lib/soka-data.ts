@@ -62,17 +62,24 @@ const NALEDI: Member = { id: "m3", name: "Naledi Khumalo", initials: "NK" };
 
 const SAMPLE_MEMBERS: Member[] = [ME, THANDI, SIPHO, NALEDI];
 
+const DAY_MS = 86_400_000;
+
+/** Local calendar date N days from today, as YYYY-MM-DD. */
 function daysFromNow(n: number) {
   const d = new Date();
+  d.setHours(12, 0, 0, 0);
   d.setDate(d.getDate() + n);
-  return d.toISOString().slice(0, 10);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-function daysAgo(n: number) {
+/** Full ISO timestamp N days ago (staggered mid-morning so it always reads realistically). */
+function daysAgo(n: number, hour = 9) {
   const d = new Date();
+  d.setHours(hour, 30, 0, 0);
   d.setDate(d.getDate() - n);
   return d.toISOString();
 }
+
 
 export const SAMPLE_GOALS: Goal[] = [
   {
