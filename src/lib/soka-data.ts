@@ -56,12 +56,11 @@ export const BUNDLES: Bundle[] = [
 
 export const ME: Member = { id: "m0", name: "You", initials: "YO" };
 
-const SAMPLE_MEMBERS: Member[] = [
-  ME,
-  { id: "m1", name: "Thandi Mokoena", initials: "TM" },
-  { id: "m2", name: "Sipho Dlamini", initials: "SD" },
-  { id: "m3", name: "Naledi Khumalo", initials: "NK" },
-];
+const THANDI: Member = { id: "m1", name: "Thandi Mokoena", initials: "TM" };
+const SIPHO: Member = { id: "m2", name: "Sipho Dlamini", initials: "SD" };
+const NALEDI: Member = { id: "m3", name: "Naledi Khumalo", initials: "NK" };
+
+const SAMPLE_MEMBERS: Member[] = [ME, THANDI, SIPHO, NALEDI];
 
 function daysFromNow(n: number) {
   const d = new Date();
@@ -97,7 +96,7 @@ export const SAMPLE_GOALS: Goal[] = [
     target: 1200,
     deadline: daysFromNow(21),
     code: "SOKA-7HQ2",
-    members: [ME, SAMPLE_MEMBERS[1], SAMPLE_MEMBERS[3]],
+    members: [ME, THANDI, NALEDI],
     contributions: [
       { id: "c4", memberId: "m0", memberName: "You", amount: 200, date: daysAgo(4), status: "success" },
       { id: "c5", memberId: "m3", memberName: "Naledi Khumalo", amount: 150, date: daysAgo(1), status: "success" },
@@ -110,7 +109,7 @@ export const SAMPLE_GOALS: Goal[] = [
     target: 800,
     deadline: daysFromNow(3),
     code: "SOKA-2VD8",
-    members: [ME, SAMPLE_MEMBERS[2]],
+    members: [ME, SIPHO],
     contributions: [
       { id: "c6", memberId: "m2", memberName: "Sipho Dlamini", amount: 450, date: daysAgo(6), status: "success" },
       { id: "c7", memberId: "m0", memberName: "You", amount: 350, date: daysAgo(3), status: "success" },
@@ -143,5 +142,5 @@ export function formatZar(amount: number) {
 }
 
 export function categoryOf(id: CategoryId) {
-  return CATEGORIES.find((c) => c.id === id) ?? CATEGORIES[4];
+  return CATEGORIES.find((c) => c.id === id) ?? CATEGORIES[CATEGORIES.length - 1]!;
 }
