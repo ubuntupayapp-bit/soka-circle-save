@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as CircleGoalIdRouteImport } from './routes/circle.$goalId'
+import { Route as GoalGoalIdRouteImport } from './routes/goal.$goalId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const CircleGoalIdRoute = CircleGoalIdRouteImport.update({
   path: '/circle/$goalId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GoalGoalIdRoute = GoalGoalIdRouteImport.update({
+  id: '/goal/$goalId',
+  path: '/goal/$goalId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
   '/circle/$goalId': typeof CircleGoalIdRoute
+  '/goal/$goalId': typeof GoalGoalIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
   '/circle/$goalId': typeof CircleGoalIdRoute
+  '/goal/$goalId': typeof GoalGoalIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
   '/circle/$goalId': typeof CircleGoalIdRoute
+  '/goal/$goalId': typeof GoalGoalIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/discover' | '/circle/$goalId'
+  fullPaths: '/' | '/create' | '/discover' | '/circle/$goalId' | '/goal/$goalId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/discover' | '/circle/$goalId'
-  id: '__root__' | '/' | '/create' | '/discover' | '/circle/$goalId'
+  to: '/' | '/create' | '/discover' | '/circle/$goalId' | '/goal/$goalId'
+  id:
+    | '__root__'
+    | '/'
+    | '/create'
+    | '/discover'
+    | '/circle/$goalId'
+    | '/goal/$goalId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +82,7 @@ export interface RootRouteChildren {
   CreateRoute: typeof CreateRoute
   DiscoverRoute: typeof DiscoverRoute
   CircleGoalIdRoute: typeof CircleGoalIdRoute
+  GoalGoalIdRoute: typeof GoalGoalIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +115,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CircleGoalIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/goal/$goalId': {
+      id: '/goal/$goalId'
+      path: '/goal/$goalId'
+      fullPath: '/goal/$goalId'
+      preLoaderRoute: typeof GoalGoalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   CreateRoute: CreateRoute,
   DiscoverRoute: DiscoverRoute,
   CircleGoalIdRoute: CircleGoalIdRoute,
+  GoalGoalIdRoute: GoalGoalIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
