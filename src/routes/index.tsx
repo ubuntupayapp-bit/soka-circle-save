@@ -5,7 +5,7 @@ import { GoalCardLink } from "@/components/soka/GoalCard";
 import { CategoryIcon } from "@/components/soka/CategoryIcon";
 import { useSoka } from "@/lib/soka-store";
 import { CATEGORIES, formatZar, funded } from "@/lib/soka-data";
-import sokaLogo from "@/assets/soka-logo.jpg.asset.json";
+import sokaLogo from "@/assets/soka-wordmark.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
