@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as BuyGoalIdRouteImport } from './routes/buy.$goalId'
 import { Route as CircleGoalIdRouteImport } from './routes/circle.$goalId'
 import { Route as ContributeGoalIdRouteImport } from './routes/contribute.$goalId'
 import { Route as GoalGoalIdRouteImport } from './routes/goal.$goalId'
@@ -29,6 +30,11 @@ const CreateRoute = CreateRouteImport.update({
 const DiscoverRoute = DiscoverRouteImport.update({
   id: '/discover',
   path: '/discover',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuyGoalIdRoute = BuyGoalIdRouteImport.update({
+  id: '/buy/$goalId',
+  path: '/buy/$goalId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CircleGoalIdRoute = CircleGoalIdRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
+  '/buy/$goalId': typeof BuyGoalIdRoute
   '/circle/$goalId': typeof CircleGoalIdRoute
   '/contribute/$goalId': typeof ContributeGoalIdRoute
   '/goal/$goalId': typeof GoalGoalIdRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
+  '/buy/$goalId': typeof BuyGoalIdRoute
   '/circle/$goalId': typeof CircleGoalIdRoute
   '/contribute/$goalId': typeof ContributeGoalIdRoute
   '/goal/$goalId': typeof GoalGoalIdRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
+  '/buy/$goalId': typeof BuyGoalIdRoute
   '/circle/$goalId': typeof CircleGoalIdRoute
   '/contribute/$goalId': typeof ContributeGoalIdRoute
   '/goal/$goalId': typeof GoalGoalIdRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/create'
     | '/discover'
+    | '/buy/$goalId'
     | '/circle/$goalId'
     | '/contribute/$goalId'
     | '/goal/$goalId'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/create'
     | '/discover'
+    | '/buy/$goalId'
     | '/circle/$goalId'
     | '/contribute/$goalId'
     | '/goal/$goalId'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/create'
     | '/discover'
+    | '/buy/$goalId'
     | '/circle/$goalId'
     | '/contribute/$goalId'
     | '/goal/$goalId'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreateRoute: typeof CreateRoute
   DiscoverRoute: typeof DiscoverRoute
+  BuyGoalIdRoute: typeof BuyGoalIdRoute
   CircleGoalIdRoute: typeof CircleGoalIdRoute
   ContributeGoalIdRoute: typeof ContributeGoalIdRoute
   GoalGoalIdRoute: typeof GoalGoalIdRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/discover'
       fullPath: '/discover'
       preLoaderRoute: typeof DiscoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/buy/$goalId': {
+      id: '/buy/$goalId'
+      path: '/buy/$goalId'
+      fullPath: '/buy/$goalId'
+      preLoaderRoute: typeof BuyGoalIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/circle/$goalId': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateRoute: CreateRoute,
   DiscoverRoute: DiscoverRoute,
+  BuyGoalIdRoute: BuyGoalIdRoute,
   CircleGoalIdRoute: CircleGoalIdRoute,
   ContributeGoalIdRoute: ContributeGoalIdRoute,
   GoalGoalIdRoute: GoalGoalIdRoute,
