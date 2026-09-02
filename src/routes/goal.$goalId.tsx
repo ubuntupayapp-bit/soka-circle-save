@@ -10,7 +10,7 @@ import {
 } from "@/components/soka/primitives";
 import { BoostNudge } from "@/components/soka/BoostNudge";
 import { useSoka } from "@/lib/soka-store";
-import { categoryOf, daysLeft, formatZar, funded, percent } from "@/lib/soka-data";
+import { categoryOf, daysLeft, formatDate, formatZar, funded, percent } from "@/lib/soka-data";
 
 export const Route = createFileRoute("/goal/$goalId")({
   head: () => ({
@@ -110,7 +110,7 @@ function GoalDetail() {
             <span className="flex-1">
               <span className="block font-semibold">{c.memberName}</span>
               <span className="block text-xs text-muted-foreground">
-                {new Date(c.date).toLocaleDateString("en-ZA", { day: "numeric", month: "short" })}
+                {formatDate(c.date)}
               </span>
             </span>
             <span className="font-bold text-primary">{formatZar(c.amount)}</span>
