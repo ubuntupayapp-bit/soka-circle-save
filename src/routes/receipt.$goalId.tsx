@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router"
 import { Check } from "lucide-react";
 import { ActionBar, PrimaryButton, Screen, TopBar } from "@/components/soka/primitives";
 import { useSoka } from "@/lib/soka-store";
-import { formatZar } from "@/lib/soka-data";
+import { formatDateTime, formatZar } from "@/lib/soka-data";
 
 export const Route = createFileRoute("/receipt/$goalId")({
   head: () => ({
@@ -45,13 +45,7 @@ function Receipt() {
         <Row label="Bundle" value={purchase.bundleName} />
         <Row
           label="Date"
-          value={new Date(purchase.date).toLocaleString("en-ZA", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
+          value={formatDateTime(purchase.date)}
         />
         <Row label="Members" value={`${goal.members.length} contributors`} />
         <div className="mt-4 flex items-center justify-between border-t border-dashed border-border pt-4">

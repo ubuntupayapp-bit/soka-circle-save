@@ -138,7 +138,22 @@ export function daysLeft(goal: Goal) {
 }
 
 export function formatZar(amount: number) {
-  return "R" + amount.toLocaleString("en-ZA", { maximumFractionDigits: 0 });
+  // Manual grouping keeps SSR and client output identical regardless of locale.
+  return "R" + Math.round(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export function formatDate(iso: string) {
+  const d = new Date(iso);
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+
+export function formatDateTime(iso: string) {
+  const d = new Date(iso);
+  const hh = String(d.getUTCHours()).padStart(2, "0");
+  const mm = String(d.getUTCMinutes()).padStart(2, "0");
+  return `${formatDate(iso)}, ${hh}:${mm}`;
 }
 
 export function categoryOf(id: CategoryId) {
