@@ -69,7 +69,7 @@ export function MemberAvatars({ members, max = 4 }: { members: Member[]; max?: n
   const shown = members.slice(0, max);
   const rest = members.length - shown.length;
   return (
-    <div className="flex -space-x-2">
+    <div className="flex flex-row items-center gap-1.5">
       {shown.map((m, i) => (
         <span
           key={m.id}
