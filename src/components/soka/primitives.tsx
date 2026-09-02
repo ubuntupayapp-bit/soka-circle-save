@@ -28,8 +28,7 @@ export function TopBar({
       {backTo ? (
         <Link
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          to={backTo as any}
-          params={backParams}
+          {...({ to: backTo, ...(backParams ? { params: backParams } : {}) } as any)}
           aria-label="Go back"
           className="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground"
         >
