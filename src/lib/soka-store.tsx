@@ -29,7 +29,13 @@ type SokaContextValue = {
   addEmergencyContribution: (amount: number) => Contribution;
 };
 
-const SokaContext = createContext<SokaContextValue | null>(null);
+// Keep a single context instance across hot-module reloads, otherwise a reloaded
+// copy of this module creates a new context and useSoka() sees no provider.
+const globalRef = globalThis as typeof globalThis & {
+  __sokaContext?: React.Context<SokaContextValue | null>;
+};
+const SokaContext =
+  globalRef.__sokaContext ?? (globalRef.__sokaContext = createContext<SokaContextValue | null>(null));
 
 function randomCode() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
