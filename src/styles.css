@@ -144,9 +144,7 @@
   font-weight: 600;
   color: var(--color-foreground);
   outline: none;
-}
 
-@utility input-base {
   &:focus {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px oklch(0.44 0.098 158 / 0.15);
