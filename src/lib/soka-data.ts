@@ -187,3 +187,28 @@ export function formatDateTime(iso: string) {
 export function categoryOf(id: CategoryId) {
   return CATEGORIES.find((c) => c.id === id) ?? CATEGORIES[CATEGORIES.length - 1]!;
 }
+
+export type EmergencyFund = {
+  target: number;
+  members: Member[];
+  contributions: Contribution[];
+};
+
+export const SAMPLE_EMERGENCY: EmergencyFund = {
+  target: 5000,
+  members: SAMPLE_MEMBERS,
+  contributions: [
+    { id: "e1", memberId: "m1", memberName: "Thandi Mokoena", amount: 400, date: daysAgo(21, 8), status: "success" },
+    { id: "e2", memberId: "m3", memberName: "Naledi Khumalo", amount: 250, date: daysAgo(14, 11), status: "success" },
+    { id: "e3", memberId: "m0", memberName: "You", amount: 300, date: daysAgo(7, 17), status: "success" },
+    { id: "e4", memberId: "m2", memberName: "Sipho Dlamini", amount: 200, date: daysAgo(2, 15), status: "success" },
+  ],
+};
+
+export function emergencyBalance(fund: EmergencyFund) {
+  return fund.contributions.filter((c) => c.status === "success").reduce((s, c) => s + c.amount, 0);
+}
+
+export function emergencyPercent(fund: EmergencyFund) {
+  return Math.min(100, Math.round((emergencyBalance(fund) / fund.target) * 100));
+}

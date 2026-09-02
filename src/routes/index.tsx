@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Plus, ShoppingBasket, Users, Wallet } from "lucide-react";
-import { Screen } from "@/components/soka/primitives";
+import { ArrowRight, LifeBuoy, Plus, ShoppingBasket, Users, Wallet } from "lucide-react";
+import { ProgressBar, Screen } from "@/components/soka/primitives";
 import { GoalCardLink } from "@/components/soka/GoalCard";
 import { CategoryIcon } from "@/components/soka/CategoryIcon";
 import { useSoka } from "@/lib/soka-store";
-import { CATEGORIES, formatZar, funded } from "@/lib/soka-data";
+import { CATEGORIES, emergencyBalance, emergencyPercent, formatZar, funded } from "@/lib/soka-data";
 import sokaLogo from "@/assets/soka-white-vision-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -50,7 +50,7 @@ const STEPS = [
 ];
 
 function Dashboard() {
-  const { goals } = useSoka();
+  const { goals, emergency } = useSoka();
   const totalPooled = goals.reduce((sum, g) => sum + funded(g), 0);
   const totalMembers = new Set(goals.flatMap((g) => g.members.map((m) => m.id))).size;
 
@@ -89,6 +89,36 @@ function Dashboard() {
           Start a new goal <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
+
+      <section className="mt-7">
+        <h2 className="text-lg font-bold">Emergency fund</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          A shared safety net your circle can top up any time — no deadline.
+        </p>
+        <Link to="/emergency" className="mt-3 block active:scale-[0.99]">
+          <div className="surface-card p-4">
+            <div className="flex items-start gap-3">
+              <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-secondary-foreground">
+                <LifeBuoy className="h-5 w-5" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-base font-bold">Circle Emergency Fund</h3>
+                <p className="text-xs text-muted-foreground">For sudden bills and hard months</p>
+              </div>
+              <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-bold text-secondary-foreground">
+                {emergencyPercent(emergency)}%
+              </span>
+            </div>
+            <div className="mt-4">
+              <ProgressBar value={emergencyPercent(emergency)} tone="accent" />
+              <p className="mt-2 text-sm font-semibold">
+                {formatZar(emergencyBalance(emergency))} / {formatZar(emergency.target)}{" "}
+                <span className="font-normal text-muted-foreground">saved</span>
+              </p>
+            </div>
+          </div>
+        </Link>
+      </section>
 
       <section className="mt-7">
         <h2 className="text-lg font-bold">How SOKA works</h2>
