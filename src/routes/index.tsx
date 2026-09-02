@@ -5,7 +5,7 @@ import { GoalCardLink } from "@/components/soka/GoalCard";
 import { CategoryIcon } from "@/components/soka/CategoryIcon";
 import { useSoka } from "@/lib/soka-store";
 import { CATEGORIES, formatZar, funded } from "@/lib/soka-data";
-import sokaLogo from "@/assets/soka-wordmark.jpg.asset.json";
+import sokaLogo from "@/assets/soka-white-vision-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -61,9 +61,9 @@ function Dashboard() {
         <img
           src={sokaLogo.url}
           alt="SOKA — Save, Own, Keep, Accumulate"
-          className="mt-3 w-full max-w-[19rem] rounded-2xl bg-card px-4 py-3"
-          width={900}
-          height={383}
+          className="mt-3 w-full max-w-[10rem] rounded-2xl"
+          width={400}
+          height={160}
           loading="eager"
         />
         <p className="mt-3 text-sm opacity-90">
