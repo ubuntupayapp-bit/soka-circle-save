@@ -1,10 +1,12 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import {
   ME,
+  SAMPLE_EMERGENCY,
   SAMPLE_GOALS,
   NEW_MEMBER_POOL,
   type CategoryId,
   type Contribution,
+  type EmergencyFund,
   type Goal,
 } from "./soka-data";
 
@@ -23,6 +25,8 @@ type SokaContextValue = {
   joinRandomMember: (goalId: string) => void;
   dismissBoost: (goalId: string) => void;
   recordPurchase: (goalId: string, purchase: NonNullable<Goal["purchase"]>) => void;
+  emergency: EmergencyFund;
+  addEmergencyContribution: (amount: number) => Contribution;
 };
 
 const SokaContext = createContext<SokaContextValue | null>(null);
@@ -36,6 +40,20 @@ function randomCode() {
 
 export function SokaProvider({ children }: { children: ReactNode }) {
   const [goals, setGoals] = useState<Goal[]>(SAMPLE_GOALS);
+  const [emergency, setEmergency] = useState<EmergencyFund>(SAMPLE_EMERGENCY);
+
+  const addEmergencyContribution = useCallback((amount: number) => {
+    const contribution: Contribution = {
+      id: `e${Date.now()}`,
+      memberId: ME.id,
+      memberName: ME.name,
+      amount,
+      date: new Date().toISOString(),
+      status: "success",
+    };
+    setEmergency((prev) => ({ ...prev, contributions: [contribution, ...prev.contributions] }));
+    return contribution;
+  }, []);
 
   const updateGoal = useCallback((id: string, fn: (g: Goal) => Goal) => {
     setGoals((prev) => prev.map((g) => (g.id === id ? fn(g) : g)));
@@ -102,8 +120,10 @@ export function SokaProvider({ children }: { children: ReactNode }) {
       joinRandomMember,
       dismissBoost,
       recordPurchase,
+      emergency,
+      addEmergencyContribution,
     }),
-    [goals, createGoal, addContribution, joinRandomMember, dismissBoost, recordPurchase],
+    [goals, createGoal, addContribution, joinRandomMember, dismissBoost, recordPurchase, emergency, addEmergencyContribution],
   );
 
   return <SokaContext.Provider value={value}>{children}</SokaContext.Provider>;
