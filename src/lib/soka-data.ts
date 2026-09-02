@@ -139,9 +139,27 @@ export function percent(goal: Goal) {
   return Math.min(100, Math.round((funded(goal) / goal.target) * 100));
 }
 
+/** Parse a YYYY-MM-DD or full ISO string; seconds-based epoch numbers are upscaled. */
+function parseDate(input: string | number | undefined | null): Date | null {
+  if (input === undefined || input === null || input === "") return null;
+  if (typeof input === "number") {
+    const ms = input < 1e11 ? input * 1000 : input;
+    const dn = new Date(ms);
+    return Number.isNaN(dn.getTime()) ? null : dn;
+  }
+  const dateOnly = /^\d{4}-\d{2}-\d{2}$/.test(input);
+  const d = new Date(dateOnly ? `${input}T12:00:00` : input);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
 export function daysLeft(goal: Goal) {
-  const ms = new Date(goal.deadline).getTime() - Date.now();
-  return Math.max(0, Math.ceil(ms / 86_400_000));
+  const due = parseDate(goal.deadline);
+  if (!due) return 0;
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+  const startOfDue = new Date(due);
+  startOfDue.setHours(0, 0, 0, 0);
+  return Math.max(0, Math.round((startOfDue.getTime() - startOfToday.getTime()) / DAY_MS));
 }
 
 export function formatZar(amount: number) {
@@ -152,16 +170,19 @@ export function formatZar(amount: number) {
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function formatDate(iso: string) {
-  const d = new Date(iso);
+  const d = parseDate(iso);
+  if (!d) return "Date unavailable";
   return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
 
 export function formatDateTime(iso: string) {
-  const d = new Date(iso);
+  const d = parseDate(iso);
+  if (!d) return "Date unavailable";
   const hh = String(d.getUTCHours()).padStart(2, "0");
   const mm = String(d.getUTCMinutes()).padStart(2, "0");
   return `${formatDate(iso)}, ${hh}:${mm}`;
 }
+
 
 export function categoryOf(id: CategoryId) {
   return CATEGORIES.find((c) => c.id === id) ?? CATEGORIES[CATEGORIES.length - 1]!;
