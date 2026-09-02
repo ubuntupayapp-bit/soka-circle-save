@@ -148,6 +148,9 @@ function Dashboard() {
         </div>
       </section>
 
+      <p className="mt-8 text-center text-xs text-muted-foreground">
+        Build today. Secure tomorrow.
+      </p>
     </Screen>
   );
 }
